@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海报设计器</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .design-panel {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .preview-panel {
+            flex: 1;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #poster-preview {
+            width: 80%;
+            max-width: 400px;
+            height: 500px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        #poster-html {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            white-space: pre;
+            overflow: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #f9f9f9;
+        }
+        .download-btn {
+            background-color: #2196F3;
+        }
+        .download-btn:hover {
+            background-color: #0b7dda;
+        }
+        .generate-btn {
+            background-color: #ff9800;
+        }
+        .generate-btn:hover {
+            background-color: #e68a00;
+        }
+    </style>
+</head>
+<body>
+    <h1>海报设计器</h1>
+    <div class="container">
+        <div class="design-panel">
+            <h2>设计参数</h2>
+            <div class="form-group">
+                <label for="poster-text">文本内容:</label>
+                <textarea id="poster-text" placeholder="输入海报文本内容...">这是一张示例海报</textarea>
+            </div>
+            <div class="form-group">
+                <label for="image-url">图片URL:</label>
+                <input type="text" id="image-url" placeholder="输入图片URL" value="https://via.placeholder.com/200">
+            </div>
+            <div class="form-group">
+                <label for="background-color">背景颜色:</label>
+                <input type="color" id="background-color" value="#ffffff">
+                <input type="text" id="background-color-text" placeholder="或输入颜色代码" value="#ffffff">
+            </div>
+            <div class="form-group">
+                <label for="poster-width">海报宽度:</label>
+                <input type="number" id="poster-width" value="800" min="200" max="2000">
+            </div>
+            <div class="form-group">
+                <label for="poster-height">海报高度:</label>
+                <input type="number" id="poster-height" value="1000" min="200" max="2000">
+            </div>
+            <div class="form-group">
+                <label for="output-format">输出格式:</label>
+                <select id="output-format">
+                    <option value="jpeg">JPEG</option>
+                    <option value="png">PNG</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="is-long-image">生成超长图:</label>
+                <input type="checkbox" id="is-long-image">
+            </div>
+            <div class="form-group">
+                <label for="generate-method">生成方法:</label>
+                <select id="generate-method">
+                    <option value="puppeteer">Puppeteer (服务器端)</option>
+                    <option value="dom-to-image" disabled>dom-to-image (浏览器端，暂不支持)</option>
+                </select>
+            </div>
+            <button id="update-preview">更新预览</button>
+            <button id="generate-html">生成HTML</button>
+            <button id="generate-poster" class="generate-btn">生成海报</button>
+        </div>
+        <div class="preview-panel">
+            <h2>预览</h2>
+            <div id="poster-preview"></div>
+            <h3>HTML代码</h3>
+            <pre id="poster-html"></pre>
+            <a id="download-link" style="display: none;">
+                <button class="download-btn">下载海报</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const textInput = document.getElementById('poster-text');
+            const imageUrlInput = document.getElementById('image-url');
+            const bgColorInput = document.getElementById('background-color');
+            const bgColorTextInput = document.getElementById('background-color-text');
+            const widthInput = document.getElementById('poster-width');
+            const heightInput = document.getElementById('poster-height');
+            const formatSelect = document.getElementById('output-format');
+            const updatePreviewBtn = document.getElementById('update-preview');
+            const generateHtmlBtn = document.getElementById('generate-html');
+            const generatePosterBtn = document.getElementById('generate-poster');
+            const posterPreview = document.getElementById('poster-preview');
+            const posterHtml = document.getElementById('poster-html');
+            const downloadLink = document.getElementById('download-link');
+
+            // 同步颜色输入
+            bgColorInput.addEventListener('input', function() {
+                bgColorTextInput.value = bgColorInput.value;
+            });
+
+            bgColorTextInput.addEventListener('input', function() {
+                // 简单验证颜色格式
+                if (/^#([0-9A-F]{3}){1,2}$/i.test(bgColorTextInput.value)) {
+                    bgColorInput.value = bgColorTextInput.value;
+                }
+            });
+
+            // 更新预览
+            function updatePreview() {
+                const text = textInput.value;
+                const imageUrl = imageUrlInput.value;
+                const bgColor = bgColorInput.value;
+                const width = widthInput.value;
+                const height = heightInput.value;
+
+                // 更新预览面板尺寸
+                posterPreview.style.width = '80%';
+                posterPreview.style.maxWidth = `${width / 2}px`;
+                posterPreview.style.height = `${height / 2}px`;
+
+                // 生成预览HTML
+                const previewHtml = `
+                    <div style="width: 100%; height: 100%; position: relative; background-color: ${bgColor};">
+                        ${imageUrl ? `<img src="${imageUrl}" style="position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 50%; height: 30%; object-fit: cover;" />` : ''}
+                        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 16px; color: #333; text-align: center;">${text}</div>
+                    </div>
+                `;
+
+                posterPreview.innerHTML = previewHtml;
+            }
+
+            // 生成HTML
+            function generateHtml() {
+                const text = textInput.value;
+                const imageUrl = imageUrlInput.value;
+                const bgColor = bgColorInput.value;
+                const width = widthInput.value;
+                const height = heightInput.value;
+
+                // 生成完整的HTML代码
+                const html = `
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { margin: 0; padding: 20px; background-color: ${bgColor}; }
+        .poster { width: 100%; height: 100%; position: relative; }
+        .text-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: #333; text-align: center; }
+        .image-content { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); width: 200px; height: 200px; object-fit: cover; }
+    </style>
+</head>
+<body>
+    <div class="poster">
+        ${imageUrl ? `<img src="${imageUrl}" class="image-content" />` : ''}
+        <div class="text-content">${text}</div>
+    </div>
+</body>
+</html>`;
+
+                posterHtml.textContent = html;
+                return html;
+            }
+
+            // 生成海报
+            function generatePoster() {
+                const html = generateHtml();
+                const width = widthInput.value;
+                const height = heightInput.value;
+                const format = formatSelect.value;
+                const isLongImage = document.getElementById('is-long-image').checked;
+                const generateMethod = document.getElementById('generate-method').value;
+
+                // 显示加载状态
+                generatePosterBtn.textContent = '生成中...';
+                generatePosterBtn.disabled = true;
+
+                // 调用API生成海报
+                fetch('/api/generate-poster', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        html: html,
+                        width: parseInt(width),
+                        height: parseInt(height),
+                        format: format,
+                        isLongImage: isLongImage,
+                        generateMethod: generateMethod
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('生成海报失败');
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    // 创建下载链接
+                    const url = URL.createObjectURL(blob);
+                    downloadLink.href = url;
+                    downloadLink.download = `poster.${format}`;
+                    downloadLink.style.display = 'block';
+
+                    // 重置按钮状态
+                    generatePosterBtn.textContent = '生成海报';
+                    generatePosterBtn.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('生成海报失败: ' + error.message);
+                    // 重置按钮状态
+                    generatePosterBtn.textContent = '生成海报';
+                    generatePosterBtn.disabled = false;
+                });
+            }
+
+            // 绑定事件
+            updatePreviewBtn.addEventListener('click', updatePreview);
+            generateHtmlBtn.addEventListener('click', generateHtml);
+            generatePosterBtn.addEventListener('click', generatePoster);
+
+            // 初始化预览
+            updatePreview();
+            generateHtml();
+        });
+    </script>
+</body>
+</html>
