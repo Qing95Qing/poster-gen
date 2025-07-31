@@ -58,7 +58,7 @@ router.post('/generate-crystal-poster', async (req, res) => {
     const image = await PosterService.createCrystalPoster({
       crystalData
     });
-    console.log('生成成功', image);
+    // console.log('生成成功', image);
     res.send(image);
   } catch (error) {
     console.error('Error generating crystal poster:', error);

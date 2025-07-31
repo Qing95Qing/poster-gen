@@ -1,16 +1,57 @@
-export default function getCrystalPosterTemplate(crystalData) {
+const FONT_URL = 'https://zhuluoji.cn-sh2.ufileos.com/resources/%E8%83%A1%E6%99%93%E6%B3%A2%E6%B5%AA%E6%BC%AB%E5%AE%8B.ttf';
+const POSTER_BG_IMAGE = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/poster-background-image.png";
+const POSTER_BOTTOM_LOGO = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/poster-bottom-rccode.png";
+const CRYSTAL_MATERIAL = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/crystal-material.png";
+const WEAR_TIP_ICON = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/wear-tip-icon.svg";
+const BRAND_LOGO = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/brand-logo.png"
+
+const getElementConfig = (type) => {
+    const configs = {
+      金: {
+        textColor: "#662900",
+        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/jin-icon.png',
+        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/jin-bg.png'
+        
+      },
+      火: {
+        textColor: "#930002",
+        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/huo-icon.png',
+        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/huo-bg.png'
+      },
+      水: {
+        textColor: "#007193",
+        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/shui-icon.png',
+        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/shui-bg.png'
+      },
+      土: {
+        textColor: "#7F6340",
+        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/tu-icon.png',
+        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/tu-bg.png'
+      },
+      木: {
+        textColor: "#609349",
+        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/mu-icon.png',
+        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/mu-bg.png'
+      },
+    };
+    return configs[type] || configs.金;
+  };
+
+export default function getCrystalPosterTemplate({crystalData}) {
+
+    const wuxingConfig = getElementConfig(crystalData?.word_info?.rizhu || crystalData?.word_info?.wuxing?.[0] || '金');
     return `
     <html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="divport" content="width=device-width, initial-scale=1.0">
-    <title>海报设计器</title>
+    <title>海报</title>
     <style>
         /* 引入自定义字体 */
         @font-face {
             font-family: 'HuXiaoBoSong';
-            src: url('/assets/huxiaobo-song.ttf') format('truetype');
+            src: url(${FONT_URL}) format('truetype');
             font-weight: normal;
             font-style: normal;
         }
@@ -29,16 +70,16 @@ export default function getCrystalPosterTemplate(crystalData) {
 
         .poster {
             position: relative;
-            width: 566px;
+            width: 430px;
             height: fit-content;
             padding-bottom: 126px;
-            padding-top: 34px;
+            padding-top: 42px;
             margin: 0 auto;
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            background-image: url('/assets/poster-background-image.png');
+            background-image: url(${POSTER_BG_IMAGE});
             background-size: 100% 100%;
             background-repeat: repeat;
         }
@@ -49,15 +90,14 @@ export default function getCrystalPosterTemplate(crystalData) {
             bottom: 0;
             left: 0;
             width: 100%;
-            height: 176px;
-            background-image: url('/assets/poster-bottom-logo.png');
+            height: 136px;
+            background-image: url(${POSTER_BOTTOM_LOGO});
             background-size: 100% 100%;
             background-repeat: no-repeat;
         }
 
         .content-card-wrapper {
-            width: 345px;
-            height: 612px;
+            width: 346px;
             padding: 2px;
             border-radius: 10px;
             background: linear-gradient(180deg, #aeaba836 0, #ffffffb8 75%, #ffffff52 100%);
@@ -86,7 +126,7 @@ export default function getCrystalPosterTemplate(crystalData) {
             width: 76px;
             top: 0;
             right: 0;
-            background: url('/assets/brand-logo.png');
+            background: url(${BRAND_LOGO});
             background-size: 100% 100%;
             background-repeat: no-repeat;
         }
@@ -157,7 +197,6 @@ export default function getCrystalPosterTemplate(crystalData) {
             width: 100%;
             color: #1F1722;
             text-align: justify;
-            font-family: "Noto Sans SC";
             font-size: 12px;
             font-style: normal;
             font-weight: 300;
@@ -177,7 +216,6 @@ export default function getCrystalPosterTemplate(crystalData) {
             gap: 4px;
             color: #1F1722;
             text-align: justify;
-            font-family: "Noto Sans SC";
             font-size: 12px;
             font-style: normal;
             font-weight: 500;
@@ -246,12 +284,12 @@ export default function getCrystalPosterTemplate(crystalData) {
 
         .wuxing-text {
             font-family: "Source Han Serif CN", serif;
-            font-weight: 500;
-            font-size: 12px;
+            font-weight: 600;
+            font-size: 14px;
             text-align: justify;
             margin: 0;
             height: 80%;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
             writing-mode: vertical-lr;
         }
 
@@ -315,7 +353,6 @@ export default function getCrystalPosterTemplate(crystalData) {
         }
 
         .crystal-name {
-            font-family: "Noto Sans SC", sans-serif;
             font-weight: 400;
             font-size: 12px;
             text-align: center;
@@ -351,67 +388,68 @@ export default function getCrystalPosterTemplate(crystalData) {
         <div class="content-card-wrapper">
             <div class="content-card">
                 <div class="main-image-container">
-                    <img class="main-image" src="https://zhuluoji.cn-sh2.ufileos.com/designs/1629.png" alt="海报主图">
+                    <img class="main-image" src=${crystalData?.image_url} alt="海报主图">
                 </div>
                 <div class="content-container">
                     <div class="design-no">
-                        设计编号：1629
+                        设计编号：${crystalData?.id}
                     </div>
                     <div class="design-title">
-                        夏日睡莲
+                        ${crystalData?.word_info?.name}
                     </div>
                     <div class="design-desc-container">
                         <div class="design-desc-right">
                             <div class="design-desc-right-top">
-                                一段话描述这款手串的，一段话描述这款手串的整体能量和祝福。一段话描述这款手串的整体能量和祝福。
+                                ${crystalData?.word_info?.recommendation_text}
                             </div>
                             <div class="design-desc-right-bottom">
                                 <div class="design-desc-right-bottom-title">
-                                    <img src="/assets/wear-tip-icon.svg" class="title-image" />
+                                    <img src=${WEAR_TIP_ICON} class="title-image" />
                                     <div>佩戴指南</div>
                                 </div>
                                 <div class="design-desc-right-bottom-content">
-                                    佩戴指南，佩戴指南佩戴指南佩戴指南佩戴指南佩戴指南
+                                    天然水晶佩戴一段时间后建议定期净化噢~可以用清水冲洗或在月光下放置一晚，以保持水晶的能量纯净和光泽度。
                                 </div>
                             </div>
                         </div>
                         <div class="design-desc-left">
-                            <img class="wuxing-image" src="/assets/jin-bg.png" />
+                            <img class="wuxing-image" src=${wuxingConfig.bgUrl} />
                             <div class="wuxing-content">
                                 <div class="wuxing-content-right">
-                                    <img class="wuxing-icon" src="/assets/jin-icon.png" />
-                                    <div class="wuxing-text" style="color: #66290099">
-                                        日主为金
+                                    <img class="wuxing-icon" src=${wuxingConfig.iconUrl} />
+                                    <div class="wuxing-text" style="color: ${wuxingConfig.textColor}">
+                                        日干为${crystalData?.word_info?.rizhu}
                                     </div>
                                 </div>
-                                <div class="wuxing-description" style="color: #66290099">
-                                    五行属性喜水、木、火
+                                <div class="wuxing-description" style="color: ${wuxingConfig.textColor}">
+                                    五行属性喜${crystalData?.word_info?.wuxing?.join('、')}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="crystal-list-container">
                         <div class="design-desc-right-bottom-title">
-                            <img src="/assets/crystal-material.png" class="title-image" />
+                            <img src=${CRYSTAL_MATERIAL} class="title-image" />    
                             <div>水晶材料</div>
                         </div>
                         <div class="crystal-list">
+                        ${crystalData?.word_info?.bead_ids_deduplication?.map((item) => `
                             <div class="crystal-card">
                                 <div class="crystal-image-container">
-                                    <img src="https://zhuluoji.cn-sh2.ufileos.com/beads0710/%E7%8E%BB%E5%88%A9%E7%BB%B4%E4%BA%9A%E7%B4%AB.webp"
+                                    <img src="${item.image_url}"
                                         class="crystal-image" />
                                 </div>
                                 <div class="crystal-content">
                                     <div class="crystal-name">
-                                        玻利维亚紫「火」
+                                        ${item.name}「${item.wuxing}」
                                     </div>
                                     <div class="crystal-effect">
                                         <div class="crystal-effect-line"></div>
-                                        <div class="crystal-effect-text">稳定情绪</div>
+                                        <div class="crystal-effect-text">${item.function}</div> 
                                     </div>
                                 </div>
-
                             </div>
+                        `).join('')}
                         </div>
                     </div>
                 </div>
