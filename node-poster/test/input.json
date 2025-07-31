@@ -1,0 +1,41 @@
+{
+    "design_id": 1725,
+    "bracelet_image": "https://zhuluoji.cn-sh2.ufileos.com/designs/1725.png",
+    "bracelet_name": "土金财旺",
+    "rizhu": "金",
+    "wuxing": [
+        "土",
+        "金",
+        "水"
+    ],
+    "bracelet_description": "土金之力交融，催旺事业财运，助您开启财富之门。",
+    "crystal_list": [
+        {
+            "id": "32",
+            "name": "白水晶",
+            "wuxing": "金",
+            "function": "净化磁场",
+            "image_url": "https://zhuluoji.cn-sh2.ufileos.com/beads0710/%E7%99%BD%E6%B0%B4%E6%99%B6.webp"
+        },
+        {
+            "id": "3",
+            "name": "黄水晶",
+            "wuxing": "土",
+            "function": "聚财增自信",
+            "image_url": "https://zhuluoji.cn-sh2.ufileos.com/beads0710/%E9%BB%84%E6%B0%B4%E6%99%B6.webp"
+        },
+        {
+            "name": "金发晶",
+            "wuxing": "土",
+            "function": "旺财运气场",
+            "image_url": "https://zhuluoji.cn-sh2.ufileos.com/beads0710/%E9%87%91%E5%8F%91%E6%99%B6.webp"
+        },
+        {
+            "id": "33",
+            "name": "白阿塞",
+            "wuxing": "金",
+            "function": "净化磁场",
+            "image_url": "https://zhuluoji.cn-sh2.ufileos.com/beads0710/%E7%99%BD%E9%98%BF%E5%A1%9E.webp"
+        }
+    ]
+}

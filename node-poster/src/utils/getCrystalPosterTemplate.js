@@ -37,9 +37,10 @@ const getElementConfig = (type) => {
     return configs[type] || configs.金;
   };
 
-export default function getCrystalPosterTemplate({crystalData}) {
+export default function getCrystalPosterTemplate({ posterData }) {
+    const { wuxing, rizhu, bracelet_image, bracelet_name, bracelet_description, design_id, crystal_list } = posterData;
 
-    const wuxingConfig = getElementConfig(crystalData?.word_info?.rizhu || crystalData?.word_info?.wuxing?.[0] || '金');
+    const wuxingConfig = getElementConfig(rizhu || '金');
     return `
     <html lang="zh-CN">
 
@@ -384,23 +385,23 @@ export default function getCrystalPosterTemplate({crystalData}) {
 </head>
 
 <body>
-    <div class="poster" id="poster">
+    <div class="poster" id="crystal-poster">
         <div class="content-card-wrapper">
             <div class="content-card">
                 <div class="main-image-container">
-                    <img class="main-image" src=${crystalData?.image_url} alt="海报主图">
+                    <img class="main-image" src=${bracelet_image} alt="海报主图">
                 </div>
                 <div class="content-container">
                     <div class="design-no">
-                        设计编号：${crystalData?.id}
+                        设计编号：${design_id}
                     </div>
                     <div class="design-title">
-                        ${crystalData?.word_info?.name}
+                        ${bracelet_name}
                     </div>
                     <div class="design-desc-container">
                         <div class="design-desc-right">
                             <div class="design-desc-right-top">
-                                ${crystalData?.word_info?.recommendation_text}
+                                ${bracelet_description}
                             </div>
                             <div class="design-desc-right-bottom">
                                 <div class="design-desc-right-bottom-title">
@@ -418,11 +419,11 @@ export default function getCrystalPosterTemplate({crystalData}) {
                                 <div class="wuxing-content-right">
                                     <img class="wuxing-icon" src=${wuxingConfig.iconUrl} />
                                     <div class="wuxing-text" style="color: ${wuxingConfig.textColor}">
-                                        日干为${crystalData?.word_info?.rizhu}
+                                        日干为${rizhu}
                                     </div>
                                 </div>
                                 <div class="wuxing-description" style="color: ${wuxingConfig.textColor}">
-                                    五行属性喜${crystalData?.word_info?.wuxing?.join('、')}
+                                    五行属性喜${wuxing?.join('、')}
                                 </div>
                             </div>
                         </div>
@@ -433,7 +434,7 @@ export default function getCrystalPosterTemplate({crystalData}) {
                             <div>水晶材料</div>
                         </div>
                         <div class="crystal-list">
-                        ${crystalData?.word_info?.bead_ids_deduplication?.map((item) => `
+                        ${crystal_list?.map((item) => `
                             <div class="crystal-card">
                                 <div class="crystal-image-container">
                                     <img src="${item.image_url}"

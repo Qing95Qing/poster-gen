@@ -15,8 +15,9 @@ app.use('/assets', express.static(path.join(__dirname, '../assets')));
 app.use('/api', posterRoutes);
 
 // 启动服务器
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Poster generator server running at http://localhost:${port}`);
+  console.log(`Server accessible on local network at http://${require('os').networkInterfaces()['en0']?.find(addr => addr.family === 'IPv4')?.address}:${port}`);
 });
 
 module.exports = app;
