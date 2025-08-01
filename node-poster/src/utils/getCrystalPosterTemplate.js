@@ -124,8 +124,8 @@ export default function getCrystalPosterTemplate({ posterData }) {
             position: absolute;
             top: 0;
             right: 0;
-            height: 27px;
-            width: 59px;
+            height: 29px;
+            width: 65px;
             border-radius: 0px 6px 0px 10px;
             padding: 6px 12px;
             display: flex;
