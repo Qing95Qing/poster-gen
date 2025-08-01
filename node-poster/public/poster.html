@@ -77,16 +77,28 @@
             flex-shrink: 0;
         }
 
-        .main-image-container::before {
-            content: '';
+        .brand-image-container {
             position: absolute;
-            height: 31px;
-            width: 76px;
             top: 0;
             right: 0;
-            background: url('/assets/brand-logo.png');
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
+            height: 25px;
+            width: 57px;
+            border-radius: 0px 6px 0px 10px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(0deg,
+                    rgba(255, 255, 255, 0.6) 0%,
+                    rgba(255, 255, 255, 0.6) 100%),
+                rgba(0, 0, 0, 0.07);
+            backdrop-filter: blur(2px);
+        }
+
+        .brand-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .main-image-container::after {
@@ -351,6 +363,10 @@
             <div class="content-card">
                 <div class="main-image-container">
                     <img class="main-image" src="https://zhuluoji.cn-sh2.ufileos.com/designs/1629.png" alt="海报主图">
+                    <div class="brand-image-container">
+                        <img class="brand-image"
+                            src="https://zhuluoji.cn-sh2.ufileos.com/images-frontend/logo-image.png" />
+                    </div>
                 </div>
                 <div class="content-container">
                     <div class="design-no">

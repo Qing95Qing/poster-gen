@@ -3,39 +3,39 @@ const POSTER_BG_IMAGE = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/pos
 const POSTER_BOTTOM_LOGO = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/poster-bottom-rccode.png";
 const CRYSTAL_MATERIAL = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/crystal-material.png";
 const WEAR_TIP_ICON = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/wear-tip-icon.svg";
-const BRAND_LOGO = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/poster/brand-logo.png"
+const BRAND_LOGO = "https://zhuluoji.cn-sh2.ufileos.com/images-frontend/logo-image.png"
 
 const getElementConfig = (type) => {
     const configs = {
-      金: {
-        textColor: "#662900",
-        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/jin-icon.png',
-        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/jin-bg.png'
-        
-      },
-      火: {
-        textColor: "#930002",
-        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/huo-icon.png',
-        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/huo-bg.png'
-      },
-      水: {
-        textColor: "#007193",
-        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/shui-icon.png',
-        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/shui-bg.png'
-      },
-      土: {
-        textColor: "#7F6340",
-        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/tu-icon.png',
-        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/tu-bg.png'
-      },
-      木: {
-        textColor: "#609349",
-        iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/mu-icon.png',
-        bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/mu-bg.png'
-      },
+        金: {
+            textColor: "#662900",
+            iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/jin-icon.png',
+            bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/jin-bg.png'
+
+        },
+        火: {
+            textColor: "#930002",
+            iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/huo-icon.png',
+            bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/huo-bg.png'
+        },
+        水: {
+            textColor: "#007193",
+            iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/shui-icon.png',
+            bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/shui-bg.png'
+        },
+        土: {
+            textColor: "#7F6340",
+            iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/tu-icon.png',
+            bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/tu-bg.png'
+        },
+        木: {
+            textColor: "#609349",
+            iconUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/mu-icon.png',
+            bgUrl: 'https://zhuluoji.cn-sh2.ufileos.com/images-frontend/wu-xing/mu-bg.png'
+        },
     };
     return configs[type] || configs.金;
-  };
+};
 
 export default function getCrystalPosterTemplate({ posterData }) {
     const { wuxing, rizhu, bracelet_image, bracelet_name, bracelet_description, design_id, crystal_list } = posterData;
@@ -120,16 +120,28 @@ export default function getCrystalPosterTemplate({ posterData }) {
             flex-shrink: 0;
         }
 
-        .main-image-container::before {
-            content: '';
+        .brand-image-container {
             position: absolute;
-            height: 31px;
-            width: 76px;
             top: 0;
             right: 0;
-            background: url(${BRAND_LOGO});
-            background-size: 100% 100%;
-            background-repeat: no-repeat;
+            height: 27px;
+            width: 59px;
+            border-radius: 0px 6px 0px 10px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(0deg,
+                    rgba(255, 255, 255, 0.6) 0%,
+                    rgba(255, 255, 255, 0.6) 100%),
+                rgba(0, 0, 0, 0.07);
+            backdrop-filter: blur(2px);
+        }
+
+        .brand-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .main-image-container::after {
@@ -390,6 +402,10 @@ export default function getCrystalPosterTemplate({ posterData }) {
             <div class="content-card">
                 <div class="main-image-container">
                     <img class="main-image" src=${bracelet_image} alt="海报主图">
+                    <div class="brand-image-container">
+                        <img class="brand-image"
+                            src=${BRAND_LOGO} />
+                    </div>
                 </div>
                 <div class="content-container">
                     <div class="design-no">
