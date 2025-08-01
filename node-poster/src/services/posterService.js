@@ -186,7 +186,7 @@ class PosterService {
           });
 
           screenshot = await posterElement.screenshot({
-            type: 'png',
+            type: 'webp',
             encoding: 'base64',
             // path: filePath || './poster.png',
             omitBackground: false, // 确保背景不透明
