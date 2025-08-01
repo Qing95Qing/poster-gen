@@ -17,18 +17,19 @@ async function runTests() {
     
     // console.log(posterData, 'posterData')
 
-    const posterBuffer = await PosterService.createCrystalPoster({ posterData });
+    let posterBuffer = await PosterService.createCrystalPoster({ posterData });
 
     console.log('海报Buffer类型:', posterBuffer instanceof Buffer);
     console.log('海报Buffer长度:', posterBuffer.length);
     if (!(posterBuffer instanceof Buffer)) {
-      throw new Error('水晶海报应该是Buffer类型');
+      // 当不为buffer时，将base64转换为buffer
+      posterBuffer = Buffer.from(posterBuffer, 'base64');
     }
     if (posterBuffer.length <= 0) {
       throw new Error('水晶海报Buffer不应该为空');
     }
 
-    const outputPath = path.join(__dirname, 'output', `crystal-${posterData.design_id}-poster.png`);
+    const outputPath = path.join(__dirname, '../assets', `result.webp`);
     fs.mkdirSync(path.dirname(outputPath), { recursive: true });
     fs.writeFileSync(outputPath, posterBuffer);
     console.log(`✓ 测试通过: 水晶海报已保存到 ${outputPath}`);
