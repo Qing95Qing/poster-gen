@@ -18,9 +18,14 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs
 
-# 安装Chrome浏览器依赖
-RUN apt-get install -y chromium-browser
+# 安装Chromium浏览器
+RUN apt-get update && apt-get install -y \
+    chromium-browser \
+    chromium-codecs-ffmpeg \
+    --no-install-recommends
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
+# 设置Chrome启动参数以避免沙箱问题
+ENV PUPPETEER_ARGS="--no-sandbox --disable-setuid-sandbox"
 
 # 清理缓存以减小镜像体积
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
