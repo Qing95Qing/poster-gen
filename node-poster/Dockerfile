@@ -1,6 +1,6 @@
 
 # 使用Ubuntu 24.04作为基础镜像
-FROM registry.cn-hangzhou.aliyuncs.com/ubuntu:24.04
+FROM ubuntu:24.04
 
 # 设置非交互式安装
 ENV DEBIAN_FRONTEND=noninteractive
