@@ -4,7 +4,7 @@ const posterRoutes = require('./api/poster');
 
 // 创建应用
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 8000;
 
 // 中间件
 app.use(express.json());
