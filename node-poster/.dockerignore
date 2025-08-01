@@ -1,0 +1,23 @@
+# 排除node_modules目录
+node_modules
+
+# 排除git相关文件
+.git
+.gitignore
+
+# 排除日志文件
+npm-debug.log
+
+# 排除测试目录
+/test
+
+# 排除IDE相关文件
+.vscode
+.idea
+
+# 排除输出目录
+/output
+
+# 排除其他不需要的文件
+*.md
+*.sh
