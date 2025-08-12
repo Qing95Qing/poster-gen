@@ -434,7 +434,7 @@ export default function getCrystalPosterTemplate({ posterData }) {
                                 <div class="wuxing-content-right">
                                     <img class="wuxing-icon" src=${wuxingConfig.iconUrl} />
                                     <div class="wuxing-text" style="color: ${wuxingConfig.textColor}">
-                                        日干为${rizhu}
+                                        日主为${rizhu}
                                     </div>
                                 </div>
                                 <div class="wuxing-description" style="color: ${wuxingConfig.textColor}">
