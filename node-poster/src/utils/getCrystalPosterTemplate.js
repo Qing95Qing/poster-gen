@@ -418,15 +418,6 @@ export default function getCrystalPosterTemplate({ posterData }) {
                             <div class="design-desc-right-top">
                                 ${bracelet_description}
                             </div>
-                            <div class="design-desc-right-bottom">
-                                <div class="design-desc-right-bottom-title">
-                                    <img src=${WEAR_TIP_ICON} class="title-image" />
-                                    <div>佩戴指南</div>
-                                </div>
-                                <div class="design-desc-right-bottom-content">
-                                    天然水晶佩戴一段时间后建议定期净化噢~可以用清水冲洗或在月光下放置一晚，以保持水晶的能量纯净和光泽度。
-                                </div>
-                            </div>
                         </div>
                         <div class="design-desc-left">
                             <img class="wuxing-image" src=${wuxingConfig.bgUrl} />
