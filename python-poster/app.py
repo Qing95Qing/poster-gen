@@ -5,7 +5,6 @@
 from flask import Flask, request, jsonify, send_file
 from image_service import ImageService
 from config import Config
-from utils import preprocess_product_data
 import os
 import uuid
 import base64
@@ -34,7 +33,7 @@ def index():
 
 @app.route('/generate/product_image', methods=['POST'])
 def generate_product_image():
-    """生成图片"""
+    """生成手串商品图片"""
     try:
         data = request.json
         if not data:
@@ -45,47 +44,18 @@ def generate_product_image():
 
         if 'bracelet_image' not in data:
             return jsonify({'error': '缺少bracelet_image参数'}), 400
+
+        if 'background_image' not in data:
+            return jsonify({'error': '缺少background_image参数'}), 400
         
-        processed_data = preprocess_product_data(data)
-        # 生成图片
+        # 生成图片（数据预处理在image_service中统一处理）
         output_path = image_service.generate_image(
             'product',
-            processed_data
+            data
         )
         # 返回图片的base64编码
         with open(output_path, 'rb') as image_file:
             return base64.b64encode(image_file.read()).decode('utf-8')
-        
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-
-    """预览图片信息"""
-    try:
-        data = request.json
-        if not data:
-            return jsonify({'error': '请求数据不能为空'}), 400
-        
-        # 生成图片
-        output_path = image_service.generate_image(
-            data['image_type'],
-            data
-        )
-        
-        # 获取文件信息
-        file_size = os.path.getsize(output_path)
-        
-        return jsonify({
-            'success': True,
-            'image_type': data['image_type'],
-            'dimensions': {
-                'width': data['width'],
-                'height': data['height']
-            },
-            'file_size': file_size,
-            'message': '图片生成成功'
-        })
         
     except Exception as e:
         return jsonify({'error': str(e)}), 500

@@ -4,25 +4,23 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from image_service import ImageService
-from utils import preprocess_product_data
 from PIL import Image
 
-# 使用工具函数预处理数据
+# 输入数据（数据预处理在image_service中统一处理）
 input_data = {
     'save_type': 'webp',
     'width': 1024,
     'height': 1024,
-    'bracelet_image': 'https://zhuluoji.cn-sh2.ufileos.com/dev/drafts/draft-bc553a2cef56dc0.webp'
+    'bracelet_image': 'https://zhuluoji.cn-sh2.ufileos.com/dev/drafts/draft-d155d548090ed80.webp',
+    'background_image': 'https://zhuluoji.cn-sh2.ufileos.com/dev/background/255.webp'
 }
-
-data = preprocess_product_data(input_data)
 
 image_service = ImageService()
 
 print("开始生成图片...")
 start_time = time.time()
 
-output_path = image_service.generate_image('product', data)
+output_path = image_service.generate_image('product', input_data)
 
 end_time = time.time()
 elapsed_time = end_time - start_time

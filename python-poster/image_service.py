@@ -5,9 +5,7 @@
 import os
 import uuid
 from typing import Dict, Any, Optional
-from generators.poster import PosterGenerator
 from generators.product import ProductGenerator
-from generators.banner import BannerGenerator
 from generators.base import BaseImageGenerator
 from utils import get_local_path
 
@@ -17,37 +15,54 @@ class ImageService:
     
     def __init__(self):
         self.generators = {
-            'poster': PosterGenerator,
             'product': ProductGenerator,
-            'banner': BannerGenerator,
             'custom': BaseImageGenerator
         }
     
     def generate_image(self, image_type: str, data: Dict[str, Any]) -> str:
         """生成图片"""
+        # 预处理数据
+        processed_data = self._preprocess_data(image_type, data)
+        
         # 获取生成器类
         generator_class = self.generators.get(image_type, BaseImageGenerator)
         
         # 创建生成器实例
         generator = generator_class(
-            width=data['width'],
-            height=data['height'],
-            background_color=tuple(data.get('background_color', (255, 255, 255)))
+            width=processed_data['width'],
+            height=processed_data['height'],
+            background_color=tuple(processed_data.get('background_color', (255, 255, 255)))
         )
         
         # 加载默认字体
         self._load_default_font(generator)
         
         # 处理字体和图片路径
-        self._process_paths(data)
+        self._process_paths(processed_data)
         
         # 生成图片
-        generator.generate_from_data(data)
+        generator.generate_from_data(processed_data)
         
         # 保存图片
-        output_path = self._save_image(generator, image_type, data.get('save_type'))
+        output_path = self._save_image(generator, image_type, processed_data.get('save_type'))
         
         return output_path
+    
+    def _preprocess_data(self, image_type: str, data: Dict[str, Any]) -> Dict[str, Any]:
+        """预处理数据
+        
+        Args:
+            image_type (str): 图片类型
+            data (dict): 原始数据
+            
+        Returns:
+            dict: 预处理后的数据
+        """
+        if image_type == 'product':
+            return ProductGenerator.preprocess_data(data)
+        else:
+            # 对于其他类型，返回原始数据或进行基本处理
+            return data
     
     def _load_default_font(self, generator):
         """加载默认字体"""
